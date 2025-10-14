@@ -26,7 +26,7 @@ if Rayfield then
 
 	--// Player & Character
 	local LocalPlayer = Players.LocalPlayer
-	local LocalCharacter = Player.Character or Player.CharacterAdded:Wait()
+	local LocalCharacter = Player.Character
 	local LocalHumanoid = Character:WaitForChild("Humanoid")
 	local LocalHumanoidRootPart = Character:WaitForChild("HumanoidRootPart")
 
