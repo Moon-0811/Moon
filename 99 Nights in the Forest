@@ -1,34 +1,20 @@
-repeat task.wait() until game:IsLoaded()
-
 --// Rayfield
 local Rayfield = loadstring(game:HttpGet("https://sirius.menu/rayfield"), true)()
 if Rayfield then
 	local Window = Rayfield:CreateWindow({
 		Name = "Moon",
-		Icon = 125889880312564,
+		Icon = 101123037159333,
 		LoadingTitle = "Moon",
 		LoadingSubtitle = "by Friedie",
 		ShowText = "Rayfield",
 		Theme = "Default",
 	})
 
-    --// Services
-    local ReplicatedStorage = game:GetService("ReplicatedStorage")
-    local TweenService = game:GetService("TweenService")
-    local Debris = game:GetService("Debris")
-    local Players = game:GetService("Players")
-
 	--// References
-	local Main = Window:CreateTab("Main", "rewind")
-	local Game = Window:CreateTab("Game", "rewind")
+	local Main = Window:CreateTab("Main")
+	local Game = Window:CreateTab("Game")
 	local Miscellaneous = Main:CreateSection("Miscellaneous")
 	local Miscellaneous = Game:CreateSection("Miscellaneous")
-
-	--// Player & Character
-	local LocalPlayer = Players.LocalPlayer
-	local LocalCharacter = Player.Character
-	local LocalHumanoid = Character:WaitForChild("Humanoid")
-	local LocalHumanoidRootPart = Character:WaitForChild("HumanoidRootPart")
 
 	--// Scripts
 	local SliderWalkSpeed = Main:CreateSlider({
@@ -39,7 +25,7 @@ if Rayfield then
 		CurrentValue = 16,
 		Flag = "",
 		Callback = function(Value)
-			LocalHumanoid.WalkSpeed = Value
+			game:GetService("Players").LocalPlayer.Character.Humanoid.WalkSpeed = Value
 		end,
 	})
 
@@ -51,8 +37,8 @@ if Rayfield then
 		CurrentValue = 50,
 		Flag = "",
 		Callback = function(Value)
-			LocalHumanoid.UseJumpPower = true
-			LocalHumanoid.JumpPower = Value
+			game:GetService("Players").LocalPlayer.Character.Humanoid.UseJumpPower = true
+			game:GetService("Players").LocalPlayer.Character.Humanoid.JumpPower = Value
 		end,
 	})
 
@@ -64,10 +50,25 @@ if Rayfield then
 		Flag = "",
 		Callback = function(Options)
 			if Options[1] then
-				if Players[Options[1]] then
-					LocalHumanoidRootPart.CFrame = Players[Options[1]].Character.HumanoidRootPart.CFrame
+				if game:GetService("Players")[Options[1]] then
+					game:GetService("Players").LocalPlayer.Character.HumanoidRootPart.CFrame = game:GetService("Players")[Options[1]].Character.HumanoidRootPart.CFrame
 				end
 			end
+		end,
+	})
+
+	local ButtonTeleportRefresh = Main:CreateButton({
+		Name = "Refresh",
+		Callback = function()
+	        task.spawn(function()
+		    local Table = {}
+		        for i, Player in game:GetService("Players"):GetPlayers() do
+			    if not table.find(Table, Player.Name) and Player.Name ~= game:GetService("Players").LocalPlayer.Name then
+				table.insert(Table, Player.Name)
+			    end
+			end
+		        DropdownTeleport:Refresh(Table)
+	        end)
 		end,
 	})
 
@@ -132,7 +133,7 @@ if Rayfield then
 							if Model.PrimaryPart and Model.Name == Options[1] then
 								game:GetService("ReplicatedStorage").RemoteEvents.RequestStartDraggingItem:FireServer(Model)
 								task.wait(0.25)
-								Model.PrimaryPart.CFrame = LocalHumanoidRootPart.CFrame
+								Model.PrimaryPart.CFrame = game:GetService("Players").LocalPlayer.Character.HumanoidRootPart.CFrame
 								task.wait(0.25)
 								game:GetService("ReplicatedStorage").RemoteEvents.StopDraggingItem:FireServer(Model)
 							end
@@ -172,7 +173,7 @@ if Rayfield then
 	task.spawn(function()
 		local Table = {}
 		for i, Player in game:GetService("Players"):GetPlayers() do
-			if not table.find(Table, Player.Name) and Player.Name ~= LocalPlayer.Name then
+			if not table.find(Table, Player.Name) and Player.Name ~= game:GetService("Players").LocalPlayer.Name then
 				table.insert(Table, Player.Name)
 			end
 		end
