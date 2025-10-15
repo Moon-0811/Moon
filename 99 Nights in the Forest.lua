@@ -49,7 +49,7 @@ if Rayfield then
 		MultipleOptions = false,
 		Flag = "",
 		Callback = function(Options)
-			if Options[1] then
+			if Options[1] ~=  "None" then
 				if game:GetService("Players")[Options[1]] then
 					game:GetService("Players").LocalPlayer.Character.HumanoidRootPart.CFrame = game:GetService("Players")[Options[1]].Character.HumanoidRootPart.CFrame
 				end
@@ -57,25 +57,19 @@ if Rayfield then
 		end,
 	})
 
-	local ButtonTeleportRefresh = Main:CreateButton({
+	local ButtonTeleport = Main:CreateButton({
 		Name = "Refresh",
 		Callback = function()
 	        task.spawn(function()
-		    local Table = {}
+		        local Table = {}
 		        for i, Player in game:GetService("Players"):GetPlayers() do
-			    if not table.find(Table, Player.Name) and Player.Name ~= game:GetService("Players").LocalPlayer.Name then
-				table.insert(Table, Player.Name)
+			        if not table.find(Table, Player.Name) and Player.Name ~= game:GetService("Players").LocalPlayer.Name then
+				        table.insert(Table, Player.Name)
+			        end
 			    end
-			end
+				DropdownTeleport:Set({ "None" })
 		        DropdownTeleport:Refresh(Table)
 	        end)
-		end,
-	})
-
-	local ButtonDestroy = Main:CreateButton({
-		Name = "Destroy",
-		Callback = function()
-			Rayfield:Destroy()
 		end,
 	})
 
@@ -119,6 +113,17 @@ if Rayfield then
 		end,
 	})
 
+	local ButtonInvincible = Game:CreateButton({
+		Name = "Invincible",
+		Callback = function()
+			task.spawn(function()
+				while task.wait(10) do
+					game:GetService("ReplicatedStorage").RemoteEvents.DamagePlayer:FireServer(-math.huge)
+				end
+			end)
+		end,
+	})
+
 	local DropdownItem = Game:CreateDropdown({
 		Name = "Item",
 		Options = { "" },
@@ -126,7 +131,7 @@ if Rayfield then
 		MultipleOptions = false,
 		Flag = "",
 		Callback = function(Options)
-			if Options[1] then
+			if Options[1] ~= "None" then
 				task.spawn(function()
 					for i, Model in ipairs(game.Workspace.Items:GetChildren()) do
 						task.spawn(function()
@@ -144,7 +149,7 @@ if Rayfield then
 		end,
 	})
 
-	local ButtonItemRefresh = Game:CreateButton({
+	local ButtonItem = Game:CreateButton({
 		Name = "Refresh",
 		Callback = function()
 			task.spawn(function()
@@ -154,39 +159,9 @@ if Rayfield then
 					    table.insert(Table, Model.Name)
 					end
 				end
+				DropdownItem:Set({ "None" })
 				DropdownItem:Refresh(Table)
 			end)
 		end,
 	})
-
-	local ButtonInvincible = Game:CreateButton({
-		Name = "Invincible",
-		Callback = function()
-			task.spawn(function()
-				while task.wait(10) do
-					game:GetService("ReplicatedStorage").RemoteEvents.DamagePlayer:FireServer(-math.huge)
-				end
-			end)
-		end,
-	})
-
-	task.spawn(function()
-		local Table = {}
-		for i, Player in game:GetService("Players"):GetPlayers() do
-			if not table.find(Table, Player.Name) and Player.Name ~= game:GetService("Players").LocalPlayer.Name then
-				table.insert(Table, Player.Name)
-			end
-		end
-		DropdownTeleport:Refresh(Table)
-	end)
-
-	task.spawn(function()
-		local Table = {}
-		for i, Model in ipairs(game.Workspace.Items:GetChildren()) do
-			if not table.find(Table, Model.Name) then
-			    table.insert(Table, Model.Name)
-			end
-		end
-		DropdownItem:Refresh(Table)
-	end)
 end
