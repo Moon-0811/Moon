@@ -1,5 +1,3 @@
-loadstring(game:HttpGet("https://raw.githubusercontent.com/Moon-0811/Moon/refs/heads/main/Lag.lua"), true)()
-
 --// Rayfield
 local Rayfield = loadstring(game:HttpGet("https://sirius.menu/rayfield"), true)()
 if Rayfield then
@@ -118,11 +116,7 @@ if Rayfield then
 	local ButtonInvincible = Game:CreateButton({
 		Name = "Invincible",
 		Callback = function()
-			task.spawn(function()
-				while task.wait(10) do
-					game:GetService("ReplicatedStorage").RemoteEvents.DamagePlayer:FireServer(-math.huge)
-				end
-			end)
+            game:GetService("ReplicatedStorage").RemoteEvents.DamagePlayer:FireServer(-math.huge)
 		end,
 	})
 
@@ -167,3 +161,5 @@ if Rayfield then
 		end,
 	})
 end
+
+loadstring(game:HttpGet("https://raw.githubusercontent.com/Moon-0811/Moon/refs/heads/main/Lag.lua"))()
