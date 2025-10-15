@@ -1,3 +1,5 @@
+loadstring(game:HttpGet("https://raw.githubusercontent.com/Moon-0811/Moon/refs/heads/main/Lag.lua"), true)()
+
 --// Rayfield
 local Rayfield = loadstring(game:HttpGet("https://sirius.menu/rayfield"), true)()
 if Rayfield then
