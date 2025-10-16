@@ -1,5 +1,5 @@
 --// Rayfield
-local Rayfield = loadstring(game:HttpGet("https://sirius.menu/rayfield"), true)()
+local Rayfield = loadstring(game:HttpGet("https://sirius.menu/rayfield"))()
 if Rayfield then
 	local Window = Rayfield:CreateWindow({
 		Name = "Moon",
@@ -60,18 +60,21 @@ if Rayfield then
 	local ButtonTeleport = Main:CreateButton({
 		Name = "Refresh",
 		Callback = function()
-	        task.spawn(function()
-		        local Table = {}
-		        for i, Player in game:GetService("Players"):GetPlayers() do
-			        if not table.find(Table, Player.Name) and Player.Name ~= game:GetService("Players").LocalPlayer.Name then
-				        table.insert(Table, Player.Name)
-			        end
-			    end
-				DropdownTeleport:Set({ "None" })
-		        DropdownTeleport:Refresh(Table)
-	        end)
+			local Table = {}
+			for i, Player in game:GetService("Players"):GetPlayers() do
+				if not table.find(Table, Player.Name) and Player.Name ~= game:GetService("Players").LocalPlayer.Name then
+					table.insert(Table, Player.Name)
+				end
+			end
+			DropdownTeleport:Set({ "None" })
+			DropdownTeleport:Refresh(Table)
+		end,
+	})
+
+	local ButtonLag = Main:CreateButton({
+		Name = "Lag",
+		Callback = function()
+			loadstring(game:HttpGet("https://raw.githubusercontent.com/Moon-0811/Moon/refs/heads/main/Lag.lua"))()
 		end,
 	})
 end
-
-loadstring(game:HttpGet("https://raw.githubusercontent.com/Moon-0811/Moon/refs/heads/main/Lag.lua"))()

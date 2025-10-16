@@ -60,63 +60,80 @@ if Rayfield then
 	local ButtonTeleport = Main:CreateButton({
 		Name = "Refresh",
 		Callback = function()
-	        task.spawn(function()
-		        local Table = {}
-		        for i, Player in game:GetService("Players"):GetPlayers() do
-			        if not table.find(Table, Player.Name) and Player.Name ~= game:GetService("Players").LocalPlayer.Name then
-				        table.insert(Table, Player.Name)
-			        end
-			    end
-				DropdownTeleport:Set({ "None" })
-		        DropdownTeleport:Refresh(Table)
-	        end)
+			local Table = {}
+			for i, Player in game:GetService("Players"):GetPlayers() do
+				if not table.find(Table, Player.Name) and Player.Name ~= game:GetService("Players").LocalPlayer.Name then
+					table.insert(Table, Player.Name)
+				end
+			end
+			DropdownTeleport:Set({ "None" })
+			DropdownTeleport:Refresh(Table)
+		end,
+	})
+
+	local ButtonLag = Main:CreateButton({
+		Name = "Lag",
+		Callback = function()
+			loadstring(game:HttpGet("https://raw.githubusercontent.com/Moon-0811/Moon/refs/heads/main/Lag.lua"))()
 		end,
 	})
 
 	local ButtonFuel = Game:CreateButton({
 		Name = "Fuel",
 		Callback = function()
-			task.spawn(function()
-				for i, Model in ipairs(game.Workspace.Items:GetChildren()) do
-					task.spawn(function()
-						if Model:GetAttribute("BurnFuel") then
-							game:GetService("ReplicatedStorage").RemoteEvents.RequestStartDraggingItem:FireServer(Model)
-							task.wait(0.25)
-							Model.PrimaryPart.CFrame = game.Workspace.Map.Campground.MainFire.Center.CFrame + Vector3.new(0, 20, 0)
-							task.wait(0.25)
-							game:GetService("ReplicatedStorage").RemoteEvents.StopDraggingItem:FireServer(Model)
-							game.Debris:AddItem(Model, 10)
-						end
-					end)
-				end
-			end)
+			for i, Model in ipairs(game.Workspace.Items:GetChildren()) do
+				task.spawn(function()
+					if Model:GetAttribute("BurnFuel") then
+						game:GetService("ReplicatedStorage").RemoteEvents.RequestStartDraggingItem:FireServer(Model)
+						task.wait(0.25)
+						Model.PrimaryPart.CFrame = game.Workspace.Map.Campground.MainFire.Center.CFrame + Vector3.new(0, 20, 0)
+						task.wait(0.25)
+						game:GetService("ReplicatedStorage").RemoteEvents.StopDraggingItem:FireServer(Model)
+						game.Debris:AddItem(Model, 10)
+					end
+				end)
+			end
 		end,
 	})
 
 	local ButtonCraft = Game:CreateButton({
 		Name = "Craft",
 		Callback = function()
-			task.spawn(function()
-				for i, Model in ipairs(game.Workspace.Items:GetChildren()) do
-					task.spawn(function()
-						if Model.Name == "Log" or Model:GetAttribute("Scrappable") or Model.Name == "Cultist Gem" then
-							game:GetService("ReplicatedStorage").RemoteEvents.RequestStartDraggingItem:FireServer(Model)
-							task.wait(0.25)
-							Model.PrimaryPart.CFrame = game.Workspace.Map.Campground.CraftingBench.TouchZone.CFrame + Vector3.new(0, 3, -2)
-							task.wait(0.25)
-							game:GetService("ReplicatedStorage").RemoteEvents.StopDraggingItem:FireServer(Model)
-							game.Debris:AddItem(Model, 10)
-						end
-					end)
-				end
-			end)
+			for i, Model in ipairs(game.Workspace.Items:GetChildren()) do
+				task.spawn(function()
+					if Model.Name == "Log" or Model:GetAttribute("Scrappable") or Model.Name == "Cultist Gem" then
+						game:GetService("ReplicatedStorage").RemoteEvents.RequestStartDraggingItem:FireServer(Model)
+						task.wait(0.25)
+						Model.PrimaryPart.CFrame = game.Workspace.Map.Campground.CraftingBench.TouchZone.CFrame + Vector3.new(0, 3, -2)
+						task.wait(0.25)
+						game:GetService("ReplicatedStorage").RemoteEvents.StopDraggingItem:FireServer(Model)
+						game.Debris:AddItem(Model, 10)
+					end
+				end)
+			end
+		end,
+	})
+
+	local ButtonBase = Game:CreateButton({
+		Name = "Base",
+		Callback = function()
+			for i = 0, math.ceil((2 * math.pi * 80) / 5) - 1 do
+				local Angle = i * (2 * math.pi) / math.ceil((2 * math.pi * 80) / 5)
+
+				local X = workspace.Map.Campground.MainFire.Center.CFrame.X + 80 * math.cos(Angle)
+				local Z = workspace.Map.Campground.MainFire.Center.CFrame.Z + 80 * math.sin(Angle)
+
+				repeat task.wait() until game.Workspace.Items:FindFirstChild("Sapling")
+				local Sapling = game.Workspace.Items:FindFirstChild("Sapling")
+				game:GetService("ReplicatedStorage").RemoteEvents.RequestPlantItem:InvokeServer(Sapling, Vector3.new(X, workspace.Map.Campground.MainFire.Center.CFrame.Y, Z))
+			end
 		end,
 	})
 
 	local ButtonInvincible = Game:CreateButton({
 		Name = "Invincible",
 		Callback = function()
-            game:GetService("ReplicatedStorage").RemoteEvents.DamagePlayer:FireServer(-math.huge)
+			game:GetService("ReplicatedStorage").RemoteEvents.DamagePlayer:FireServer(-math.huge)
 		end,
 	})
 
@@ -128,19 +145,17 @@ if Rayfield then
 		Flag = "",
 		Callback = function(Options)
 			if Options[1] ~= "None" then
-				task.spawn(function()
-					for i, Model in ipairs(game.Workspace.Items:GetChildren()) do
-						task.spawn(function()
-							if Model.PrimaryPart and Model.Name == Options[1] then
-								game:GetService("ReplicatedStorage").RemoteEvents.RequestStartDraggingItem:FireServer(Model)
-								task.wait(0.25)
-								Model.PrimaryPart.CFrame = game:GetService("Players").LocalPlayer.Character.HumanoidRootPart.CFrame
-								task.wait(0.25)
-								game:GetService("ReplicatedStorage").RemoteEvents.StopDraggingItem:FireServer(Model)
-							end
-						end)
-					end
-				end)
+				for i, Model in ipairs(game.Workspace.Items:GetChildren()) do
+					task.spawn(function()
+						if Model.PrimaryPart and Model.Name == Options[1] then
+							game:GetService("ReplicatedStorage").RemoteEvents.RequestStartDraggingItem:FireServer(Model)
+							task.wait(0.25)
+							Model.PrimaryPart.CFrame = game:GetService("Players").LocalPlayer.Character.HumanoidRootPart.CFrame
+							task.wait(0.25)
+							game:GetService("ReplicatedStorage").RemoteEvents.StopDraggingItem:FireServer(Model)
+						end
+					end)
+				end
 			end
 		end,
 	})
@@ -148,18 +163,14 @@ if Rayfield then
 	local ButtonItem = Game:CreateButton({
 		Name = "Refresh",
 		Callback = function()
-			task.spawn(function()
-				local Table = {}
-				for i, Model in ipairs(game.Workspace.Items:GetChildren()) do
-					if not table.find(Table, Model.Name) then
-					    table.insert(Table, Model.Name)
-					end
+			local Table = {}
+			for i, Model in ipairs(game.Workspace.Items:GetChildren()) do
+				if not table.find(Table, Model.Name) then
+					table.insert(Table, Model.Name)
 				end
-				DropdownItem:Set({ "None" })
-				DropdownItem:Refresh(Table)
-			end)
+			end
+			DropdownItem:Set({ "None" })
+			DropdownItem:Refresh(Table)
 		end,
 	})
 end
-
-loadstring(game:HttpGet("https://raw.githubusercontent.com/Moon-0811/Moon/refs/heads/main/Lag.lua"))()
