@@ -117,8 +117,8 @@ if Rayfield then
 	local ButtonBase = Game:CreateButton({
 		Name = "Base",
 		Callback = function()
-			for i = 0, math.ceil((2 * math.pi * 80) / 5) - 1 do
-				local Angle = i * (2 * math.pi) / math.ceil((2 * math.pi * 80) / 5)
+			for i = 0, math.ceil((2 * math.pi * 80) / 3) - 1 do
+				local Angle = i * (2 * math.pi) / math.ceil((2 * math.pi * 80) / 3)
 
 				local X = workspace.Map.Campground.MainFire.Center.CFrame.X + 80 * math.cos(Angle)
 				local Z = workspace.Map.Campground.MainFire.Center.CFrame.Z + 80 * math.sin(Angle)
