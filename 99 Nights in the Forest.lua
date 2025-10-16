@@ -1,5 +1,5 @@
 --// Rayfield
-local Rayfield = loadstring(game:HttpGet("https://sirius.menu/rayfield"), true)()
+local Rayfield = loadstring(game:HttpGet("https://sirius.menu/rayfield"))()
 if Rayfield then
 	local Window = Rayfield:CreateWindow({
 		Name = "Moon",
