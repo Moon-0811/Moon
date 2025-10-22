@@ -117,11 +117,11 @@ if Rayfield then
 	local ButtonBase = Game:CreateButton({
 		Name = "Base",
 		Callback = function()
-			for i = 0, math.ceil((2 * math.pi * 75) / 3) - 1 do
-				local Angle = i * (2 * math.pi) / math.ceil((2 * math.pi * 75) / 3)
+			for i = 0, math.ceil((2 * math.pi * 70) / 3.25) - 1 do
+				local Angle = i * (2 * math.pi) / math.ceil((2 * math.pi * 75) / 3.25)
 
-				local X = workspace.Map.Campground.MainFire.Center.CFrame.X + 75 * math.cos(Angle)
-				local Z = workspace.Map.Campground.MainFire.Center.CFrame.Z + 75 * math.sin(Angle)
+				local X = workspace.Map.Campground.MainFire.Center.CFrame.X + 70 * math.cos(Angle)
+				local Z = workspace.Map.Campground.MainFire.Center.CFrame.Z + 70 * math.sin(Angle)
 
 				repeat task.wait() until game.Workspace.Items:FindFirstChild("Sapling")
 				local Sapling = game.Workspace.Items:FindFirstChild("Sapling")
