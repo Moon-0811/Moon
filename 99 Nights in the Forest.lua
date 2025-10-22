@@ -89,7 +89,6 @@ if Rayfield then
 						Model.PrimaryPart.CFrame = game.Workspace.Map.Campground.MainFire.Center.CFrame + Vector3.new(0, 20, 0)
 						task.wait(0.25)
 						game:GetService("ReplicatedStorage").RemoteEvents.StopDraggingItem:FireServer(Model)
-						game.Debris:AddItem(Model, 10)
 					end
 				end)
 			end
@@ -107,7 +106,6 @@ if Rayfield then
 						Model.PrimaryPart.CFrame = game.Workspace.Map.Campground.CraftingBench.TouchZone.CFrame + Vector3.new(0, 3, -2)
 						task.wait(0.25)
 						game:GetService("ReplicatedStorage").RemoteEvents.StopDraggingItem:FireServer(Model)
-						game.Debris:AddItem(Model, 10)
 					end
 				end)
 			end
@@ -117,11 +115,11 @@ if Rayfield then
 	local ButtonBase = Game:CreateButton({
 		Name = "Base",
 		Callback = function()
-			for i = 0, math.ceil((2 * math.pi * 70) / 3.25) - 1 do
-				local Angle = i * (2 * math.pi) / math.ceil((2 * math.pi * 75) / 3.25)
+			for i = 0, math.ceil((2 * math.pi * 130) / 3.3) - 1 do
+				local Angle = i * (2 * math.pi) / math.ceil((2 * math.pi * 130) / 3.3)
 
-				local X = workspace.Map.Campground.MainFire.Center.CFrame.X + 70 * math.cos(Angle)
-				local Z = workspace.Map.Campground.MainFire.Center.CFrame.Z + 70 * math.sin(Angle)
+				local X = workspace.Map.Campground.MainFire.Center.CFrame.X + 130 * math.cos(Angle)
+				local Z = workspace.Map.Campground.MainFire.Center.CFrame.Z + 130 * math.sin(Angle)
 
 				repeat task.wait() until game.Workspace.Items:FindFirstChild("Sapling")
 				local Sapling = game.Workspace.Items:FindFirstChild("Sapling")
